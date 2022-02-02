@@ -26,11 +26,13 @@ function moveEverything() {
 }
 
 function drawEverything() {
-
+  //black screen of playing field
   colorRect(0, 0, canvas.width, canvas.height, 'black');
 
+  //left player paddle
   colorRect(0, 210, 10, 100, 'white');
 
+  //ball
   colorRect(ballX, 200, 5, 5, 'red');
 }
 
