@@ -7,6 +7,9 @@ let ballSpeedX = 15;
 let ballY = 50;
 let ballSpeedY = 5;
 
+let paddleOneY = 250;
+const paddleHeight = 100;
+
 
 window.onload = function() {
 
@@ -44,7 +47,7 @@ function drawEverything() {
   colorRect(0, 0, canvas.width, canvas.height, 'black');
 
   //left player paddle
-  colorRect(0, 210, 10, 100, 'white');
+  colorRect(0, paddleOneY, 10, paddleHeight, 'white');
 
   //ball
   colorCircle(ballX, ballY, 10, 'white');
