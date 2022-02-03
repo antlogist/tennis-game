@@ -2,10 +2,10 @@ const canvas = document.getElementById('gameCanvas');
 const canvasContext = canvas.getContext('2d');
 
 let ballX = 50;
-let ballSpeedX = 15;
+let ballSpeedX = 10;
 
 let ballY = 50;
-let ballSpeedY = 5;
+let ballSpeedY = 2;
 
 let paddleOneY = 250;
 let paddleTwoY = 250;
@@ -46,9 +46,23 @@ function ballReset() {
   ballY = canvas.height/2;
 }
 
+function computerMovement() {
+
+  const paddleTwoYCenter = paddleTwoY + (paddleHeight/2);
+
+  if(paddleTwoYCenter < ballY-25) {
+    paddleTwoY += 6;
+  } else if(paddleTwoYCenter > ballY+25) {
+    paddleTwoY -= 6;
+  }
+}
+
 function moveEverything() {
 
-  ballX = ballX + ballSpeedX;
+  computerMovement();
+
+  ballX += ballSpeedX;
+  ballY +=  ballSpeedY;
 
   if(ballX >= canvas.width) {
     if(ballY > paddleTwoY &&
@@ -88,6 +102,8 @@ function drawEverything() {
 
   //ball
   colorCircle(ballX, ballY, 10, 'white');
+
+  canvasContext.fillText('score stuff', 100, 100);
 }
 
 function colorRect(leftX, topY, width, height, color) {
