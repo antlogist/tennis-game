@@ -7,6 +7,9 @@ let ballSpeedX = 10;
 let ballY = 50;
 let ballSpeedY = 2;
 
+let playerOneScore = 0;
+let playerTwoScore = 0;
+
 let paddleOneY = 250;
 let paddleTwoY = 250;
 const paddleHeight = 100;
@@ -70,6 +73,7 @@ function moveEverything() {
        ballSpeedX = -ballSpeedX;
    } else {
      ballReset();
+     playerOneScore++;
    }
   } else if (ballX <= 0) {
     if(ballY > paddleOneY &&
@@ -77,6 +81,7 @@ function moveEverything() {
         ballSpeedX = -ballSpeedX;
     } else {
       ballReset();
+      playerTwoScore++;
     }
   }
 
@@ -103,7 +108,9 @@ function drawEverything() {
   //ball
   colorCircle(ballX, ballY, 10, 'white');
 
-  canvasContext.fillText('score stuff', 100, 100);
+  //players score
+  canvasContext.fillText(playerOneScore, 100, 100);
+  canvasContext.fillText(playerTwoScore, canvas.width-100, 100);
 }
 
 function colorRect(leftX, topY, width, height, color) {
