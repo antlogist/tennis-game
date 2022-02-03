@@ -38,6 +38,12 @@ window.onload = function() {
 
 }
 
+function ballReset() {
+  ballSpeedX = -ballSpeedX;
+  ballX = canvas.width/2;
+  ballY = canvas.height/2;
+}
+
 function moveEverything() {
 
   ballX = ballX + ballSpeedX;
@@ -45,7 +51,13 @@ function moveEverything() {
   if(ballX >= canvas.width) {
     ballSpeedX = -ballSpeedX
   } else if (ballX <= 0) {
-    ballSpeedX = -ballSpeedX;
+    if(ballY > paddleOneY &&
+       ballY < paddleOneY + paddleHeight) {
+        ballSpeedX = -ballSpeedX;
+    } else {
+      ballReset();
+    }
+
   }
 
   ballY = ballY + ballSpeedY;
