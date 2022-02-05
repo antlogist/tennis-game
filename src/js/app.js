@@ -45,6 +45,12 @@ window.onload = function() {
 }
 
 function ballReset() {
+  if(playerOneScore >= winningScore ||
+    playerTwoScore >= winningScore) {
+      playerOneScore = 0;
+      playerTwoScore = 0;
+  }
+
   ballSpeedX = -ballSpeedX;
   ballX = canvas.width/2;
   ballY = canvas.height/2;
@@ -73,22 +79,23 @@ function moveEverything() {
       ballY < paddleTwoY + paddleHeight) {
       ballSpeedX = -ballSpeedX;
 
-       const deltaY = ballY - (paddleOneY + paddleHeight / 2);
+       const deltaY = ballY - (paddleOneY + paddleHeight/2);
        ballSpeedY = deltaY*0.025;
-   } else {
-     ballReset();
-     playerOneScore++;
-   }
+    } else {
+      playerOneScore++;
+      ballReset();
+    }
   } else if (ballX <= 0) {
+
     if(ballY > paddleOneY &&
        ballY < paddleOneY + paddleHeight) {
        ballSpeedX = -ballSpeedX;
 
-        const deltaY = ballY - (paddleTwoY + paddleHeight / 2);
+        const deltaY = ballY - (paddleTwoY + paddleHeight/2);
         ballSpeedY = deltaY*0.025;
     } else {
-      ballReset();
       playerTwoScore++;
+      ballReset();
     }
   }
 
