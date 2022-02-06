@@ -10,6 +10,7 @@ let ballSpeedY = 2;
 let playerLeftScore = 0;
 let playerRightScore = 0;
 const winningScore = 3;
+let showingWinScreen = false;
 
 let paddleLeftY = 250;
 let paddleRightY = 250;
@@ -28,6 +29,14 @@ function calculateMousePos(evt) {
   };
 }
 
+function handleMouseClick(evt) {
+  if(showingWinScreen) {
+    playerLeftScore = 0;
+    playerRightScore = 0;
+    showingWinScreen = false;
+  }
+}
+
 window.onload = function() {
 
   const framesPerSecond = 30;
@@ -36,6 +45,8 @@ window.onload = function() {
     moveEverything();
     drawEverything();
   }, 1000/framesPerSecond);
+
+  canvas.addEventListener('mousedown', handleMouseClick);
 
   canvas.addEventListener('mousemove', function(evt) {
     const mousePos = calculateMousePos(evt);
@@ -47,8 +58,7 @@ window.onload = function() {
 function ballReset() {
   if(playerLeftScore >= winningScore ||
     playerRightScore >= winningScore) {
-      playerLeftScore = 0;
-      playerRightScore = 0;
+      showingWinScreen = true;
   }
 
   ballSpeedX = -ballSpeedX;
@@ -60,14 +70,18 @@ function computerMovement() {
 
   const paddleRightYCenter = paddleRightY + (paddleHeight/2);
 
-  if(paddleRightYCenter < ballY-25) {
+  if(paddleRightYCenter < ballY-35) {
     paddleRightY += 6;
-  } else if(paddleRightYCenter > ballY+25) {
+  } else if(paddleRightYCenter > ballY+35) {
     paddleRightY -= 6;
   }
 }
 
 function moveEverything() {
+
+  if(showingWinScreen) {
+    return;
+  }
 
   computerMovement();
 
@@ -125,9 +139,34 @@ function moveEverything() {
 
 }
 
+function drawNet() {
+  for(let i=0; i < canvas.clientHeight; i +=40) {
+    colorRect(canvas.width / 2 - 1, i,
+              2, 20, 'white');
+  }
+}
+
 function drawEverything() {
   //black screen of playing field
   colorRect(0, 0, canvas.width, canvas.height, 'black');
+
+  if(showingWinScreen) {
+
+    canvasContext.fillStyle = 'white';
+
+    if(playerLeftScore >= winningScore) {
+      canvasContext.fillText("Left Player Won!", 350, 200);
+    }
+
+    if(playerRightScore >= winningScore) {
+      canvasContext.fillText("Right Player Won!", 350, 200);
+    }
+
+    canvasContext.fillText("Click to continue", 350, 500);
+    return;
+  }
+
+  drawNet();
 
   //left player paddle
   colorRect(0, paddleLeftY, paddleThickness, paddleHeight, 'white');
