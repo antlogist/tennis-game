@@ -139,6 +139,13 @@ function moveEverything() {
 
 }
 
+function drawNet() {
+  for(let i=0; i < canvas.clientHeight; i +=40) {
+    colorRect(canvas.width / 2 - 1, i,
+              2, 20, 'white');
+  }
+}
+
 function drawEverything() {
   //black screen of playing field
   colorRect(0, 0, canvas.width, canvas.height, 'black');
@@ -158,6 +165,8 @@ function drawEverything() {
     canvasContext.fillText("Click to continue", 350, 500);
     return;
   }
+
+  drawNet();
 
   //left player paddle
   colorRect(0, paddleLeftY, paddleThickness, paddleHeight, 'white');
