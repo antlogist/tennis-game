@@ -10,6 +10,7 @@ let ballSpeedY = 2;
 let playerLeftScore = 0;
 let playerRightScore = 0;
 const winningScore = 3;
+let showingWinScreen = false;
 
 let paddleLeftY = 250;
 let paddleRightY = 250;
@@ -49,6 +50,7 @@ function ballReset() {
     playerRightScore >= winningScore) {
       playerLeftScore = 0;
       playerRightScore = 0;
+      showingWinScreen = true;
   }
 
   ballSpeedX = -ballSpeedX;
@@ -60,14 +62,18 @@ function computerMovement() {
 
   const paddleRightYCenter = paddleRightY + (paddleHeight/2);
 
-  if(paddleRightYCenter < ballY-25) {
+  if(paddleRightYCenter < ballY-35) {
     paddleRightY += 6;
-  } else if(paddleRightYCenter > ballY+25) {
+  } else if(paddleRightYCenter > ballY+35) {
     paddleRightY -= 6;
   }
 }
 
 function moveEverything() {
+
+  if(showingWinScreen) {
+    return;
+  }
 
   computerMovement();
 
@@ -128,6 +134,12 @@ function moveEverything() {
 function drawEverything() {
   //black screen of playing field
   colorRect(0, 0, canvas.width, canvas.height, 'black');
+
+  if(showingWinScreen) {
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillText("Click to continue", 100, 100);
+    return;
+  }
 
   //left player paddle
   colorRect(0, paddleLeftY, paddleThickness, paddleHeight, 'white');
