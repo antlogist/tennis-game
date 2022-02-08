@@ -1,5 +1,5 @@
-const canvas = document.getElementById('gameCanvas');
-const canvasContext = canvas.getContext('2d');
+let canvas;
+let canvasContext;
 
 let ballX = 50;
 let ballSpeedX = 10;
@@ -41,6 +41,9 @@ function handleMouseClick(evt) {
 }
 
 window.onload = function() {
+
+  canvas = document.getElementById('gameCanvas');
+  canvasContext = canvas.getContext('2d');
 
   const framesPerSecond = 30;
 
