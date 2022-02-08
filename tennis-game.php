@@ -10,6 +10,6 @@
 
 <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-<script src="dist/js/app.js"></script>
+<script src="dist/js/app.js?ver=<?php echo microtime(); ?>"></script>
 </body>
 </html>

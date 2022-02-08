@@ -20,8 +20,11 @@ const paddleThickness = 10;
 function calculateMousePos(evt) {
   const rect = canvas.getBoundingClientRect();
   const root = document.documentElement;
-  const mouseX = evt.clientX - rect.left - root.scrollLeft;
-  const mouseY = evt.clientY - rect.top - root.scrollTop;
+  // const mouseX = evt.clientX - rect.left - root.scrollLeft;
+  // const mouseY = evt.clientY - rect.top - root.scrollTop;
+
+  const mouseX = evt.clientX - rect.left;
+  const mouseY = evt.clientY - rect.top;
 
   return {
     x: mouseX,
