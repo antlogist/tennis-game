@@ -13,9 +13,7 @@ export function ballMovement(x, y, sX, sY, w, h) {
     ballSpeedX *= -1;
   }
 
-  if(ballY >= h) {
-    ballSpeedY *= -1;
-  } else if(ballY <= 0) {
+  if(ballY <= 0) {
     ballSpeedY *= -1;
   }
 
@@ -34,8 +32,6 @@ export function updateMousePos(evt, canvas) {
 
   const mouseX = evt.clientX - rect.left - root.scrollLeft;
   const mouseY = evt.clientY - rect.top - root.scrollTop;
-
-  console.log(mouseX);
 
   return {
     mouseX,
