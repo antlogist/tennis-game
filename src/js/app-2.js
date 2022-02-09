@@ -25,6 +25,12 @@ let ballSpeedY = 5;
 let mouseX;
 let mouseY;
 
+//Brick
+const brickWidth = 100;
+const brickHeight = 50;
+const brickCount = 8;
+let brickGrid = new Array(brickCount);
+
 
 window.onload = function() {
   canvas = document.querySelector("#gameCanvas");
@@ -46,6 +52,8 @@ window.onload = function() {
     paddleX = mouseX - paddleWidth / 2;
   });
 
+  brickReset();
+
 }
 
 function updateAll() {
@@ -66,11 +74,17 @@ function updateAll() {
 
   //Shapes drawing
   //Game field
-  shape.rect(canvasContext, 'black', 0, 0, canvas.width, canvas.height);
+  shape.rect(canvasContext, 'black', 0,0, canvas.width,canvas.height);
   //Paddle
-  shape.rect(canvasContext, 'white', paddleX, paddleY, paddleWidth, paddleHeight);
+  shape.rect(canvasContext, 'white', paddleX,paddleY, paddleWidth,paddleHeight);
   //Ball
-  shape.circle(canvasContext, 'white', ballX, ballY, ballRadius);
+  shape.circle(canvasContext, 'white', ballX,ballY, ballRadius);
+  //Bricks
+  brickGrid.map((brick, i) => {
+    if(brickGrid[i]) {
+      shape.rect(canvasContext, 'coral', brickWidth * i,0, brickWidth - 2,brickHeight);
+    }
+  })
   //Mouse coordinates
   shape.text(canvasContext, `${mouseX}, ${mouseY}`, mouseX,mouseY, 'yellow');
 
@@ -79,4 +93,11 @@ function updateAll() {
 function ballReset() {
   ballX = canvas.width / 2;
   ballY = canvas.height / 2
+}
+
+function brickReset() {
+  [...Array(brickCount)].map((brick, i)=> {
+    //random brick rendering
+    brickGrid[i] = Math.floor(Math.random() * 2) == 0;
+  });
 }
