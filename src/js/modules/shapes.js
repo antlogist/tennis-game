@@ -9,3 +9,8 @@ export function circle(canvasContext, color, x, y, radius) {
   canvasContext.arc(x, y, radius, 0, Math.PI*2, true);
   canvasContext.fill();
 }
+
+export function text(canvasContext, showWords, textX,textY, fillColor) {
+  canvasContext.fillStyle = fillColor;
+  canvasContext.fillText(showWords, textX, textY);
+}

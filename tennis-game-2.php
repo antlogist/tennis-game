@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<canvas id="gameCanvas" width="800" height="600"></canvas>
+<canvas id="gameCanvas" width="800" height="600" style="margin: 0 auto; display: block;"></canvas>
 
 <script src="dist/js/app-2.js?ver=<?php echo microtime(); ?>"></script>
 </body>
