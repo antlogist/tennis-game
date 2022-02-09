@@ -46,7 +46,7 @@ window.onload = function() {
 function updateAll() {
 
   //Ball movement
-  const ballMovement = movement.ballMovement(ballX, ballY, ballSpeedX, ballSpeedY, canvas.width, canvas.height);
+  const ballMovement = movement.ballMovement(ballX, ballY, ballSpeedX, ballSpeedY, ballRadius, canvas.width, canvas.height, paddleX, paddleY, paddleWidth, paddleHeight);
 
   //Vars updating
   ballX = ballMovement.ballX;
@@ -66,25 +66,6 @@ function updateAll() {
   shape.rect(canvasContext, 'white', paddleX, paddleY, paddleWidth, paddleHeight);
   //Ball
   shape.circle(canvasContext, 'white', ballX, ballY, ballRadius);
-
- //Paddle edges
- const paddleTopEdgeY = canvas.height - paddleHeight - canvas.height * 0.1;
- const paddleBottomEdgeY = paddleTopEdgeY + paddleHeight;
- const paddleLeftEdgeX = paddleX;
- const paddleRightEdgeX = paddleX + paddleWidth;
-
- // Reflect ball
- if(ballY > paddleTopEdgeY - ballRadius && //bellow the top of paddle
-    // ballY < paddleBottomEdgeY && //above bottom of paddle
-    ballX > paddleLeftEdgeX && //right of the left side of paddle
-    ballX < paddleRightEdgeX) { //left of the right side of paddle
-       ballSpeedY *= -1;
-
-       const centerOfPaddleX = paddleX + paddleWidth / 2;
-       //negative = left
-       const ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
-       ballSpeedX = ballDistFromPaddleCenterX * 0.35;
- }
 
 }
 
