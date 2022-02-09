@@ -21,6 +21,10 @@ let ballSpeedX = 10;
 let ballY = 75;
 let ballSpeedY = 5;
 
+//Mouse
+let mouseX;
+let mouseY;
+
 
 window.onload = function() {
   canvas = document.querySelector("#gameCanvas");
@@ -36,9 +40,10 @@ window.onload = function() {
   //Mouse movement
   canvas.addEventListener('mousemove', function(evt) {
     const mouseMovement = movement.updateMousePos(evt, canvas);
-
+    mouseX = mouseMovement.mouseX;
+    mouseY = mouseMovement.mouseY;
     //Paddle movement. Mouse center
-    paddleX = mouseMovement.mouseX - paddleWidth / 2;
+    paddleX = mouseX - paddleWidth / 2;
   });
 
 }
@@ -46,7 +51,7 @@ window.onload = function() {
 function updateAll() {
 
   //Ball movement
-  const ballMovement = movement.ballMovement(ballX, ballY, ballSpeedX, ballSpeedY, ballRadius, canvas.width, canvas.height, paddleX, paddleY, paddleWidth, paddleHeight);
+  const ballMovement = movement.ballMovement(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, canvas.width,canvas.height, paddleX,paddleY, paddleWidth,paddleHeight);
 
   //Vars updating
   ballX = ballMovement.ballX;
@@ -66,6 +71,8 @@ function updateAll() {
   shape.rect(canvasContext, 'white', paddleX, paddleY, paddleWidth, paddleHeight);
   //Ball
   shape.circle(canvasContext, 'white', ballX, ballY, ballRadius);
+  //Mouse coordinates
+  shape.text(canvasContext, `${mouseX}, ${mouseY}`, mouseX,mouseY, 'yellow');
 
 }
 
