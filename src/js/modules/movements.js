@@ -1,8 +1,4 @@
-export function ballMovement(ballX, ballY, ballSpeedX, ballSpeedY, ballRadius, canvasWidth, canvasHeight, paddleX, paddleY, paddleWidth, paddleHeight) {
-  // let ballX = ba;
-  // let ballY = y
-  // let ballSpeedX = sX;
-  // let ballSpeedY = sY;
+export function ballMovement(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, canvasWidth,canvasHeight, paddleX,paddleY, paddleWidth,paddleHeight) {
 
   ballX += ballSpeedX;
   ballY += ballSpeedY;
