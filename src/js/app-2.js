@@ -28,8 +28,9 @@ let mouseY;
 //Brick
 const brickWidth = 100;
 const brickHeight = 50;
+const brickGap = 2;
 const brickCount = 8;
-let brickGrid = new Array(brickCount);
+let brickGrid = [];
 
 
 window.onload = function() {
@@ -82,11 +83,13 @@ function updateAll() {
   //Bricks
   brickGrid.map((brick, i) => {
     if(brickGrid[i]) {
-      shape.rect(canvasContext, 'coral', brickWidth * i,0, brickWidth - 2,brickHeight);
+      shape.rect(canvasContext, 'coral', brickWidth * i,0, brickWidth - brickGap,brickHeight);
     }
   })
   //Mouse coordinates
-  shape.text(canvasContext, `${mouseX}, ${mouseY}`, mouseX,mouseY, 'yellow');
+  const mouseBrickCol = mouseX / brickWidth;
+  const mouseBrickRow = mouseY / brickHeight;
+  shape.text(canvasContext, `${mouseBrickCol}, ${mouseBrickRow}`, mouseX,mouseY, 'yellow');
 
 }
 
