@@ -29,7 +29,8 @@ let mouseY;
 const brickWidth = 100;
 const brickHeight = 50;
 const brickGap = 2;
-const brickCount = 8;
+const brickCols = 8;
+const brickRows = 2;
 let brickGrid = [];
 
 
@@ -81,11 +82,14 @@ function updateAll() {
   //Ball
   shape.circle(canvasContext, 'white', ballX,ballY, ballRadius);
   //Bricks
-  brickGrid.map((brick, i) => {
-    if(brickGrid[i]) {
-      shape.rect(canvasContext, 'coral', brickWidth * i,0, brickWidth - brickGap,brickHeight);
-    }
-  })
+  [...Array(brickRows)].map((row, rowI)=>  {
+    brickGrid.map((col, colI) => {
+      if(brickGrid[colI]) {
+        shape.rect(canvasContext, 'coral', brickWidth * colI,brickHeight * rowI, brickWidth - brickGap,brickHeight - brickGap);
+      }
+    })
+  });
+
   //Mouse coordinates
   const mouseBrickCol = mouseX / brickWidth;
   const mouseBrickRow = mouseY / brickHeight;
@@ -99,7 +103,7 @@ function ballReset() {
 }
 
 function brickReset() {
-  [...Array(brickCount)].map((brick, i)=> {
+  [...Array(brickCols)].map((brick, i)=> {
     //random brick rendering
     brickGrid[i] = Math.floor(Math.random() * 2) == 0;
   });
