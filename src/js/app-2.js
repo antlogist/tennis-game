@@ -55,6 +55,7 @@ window.onload = function() {
   });
 
   brickReset();
+  ballReset();
 
 }
 
@@ -82,9 +83,13 @@ function updateAll() {
   const ballBrickCol = Math.floor(ballX / brickWidth);
   const ballBrickRow = Math.floor(ballY / brickHeight);
   const brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
+
   if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickCols &&
      ballX > 0 && ballX < canvas.width) {
-    brickGrid[brickIndexUnderBall] = false;
+       if(brickGrid[brickIndexUnderBall]) {
+        brickGrid[brickIndexUnderBall] = false;
+        ballSpeedY *= -1;
+       }
   }
 
   //Shapes drawing
