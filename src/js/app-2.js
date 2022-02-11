@@ -78,6 +78,14 @@ function updateAll() {
     ballReset();
   }
 
+  //Remove Bricks under the balll
+  const ballBrickCol = Math.floor(ballX / brickWidth);
+  const ballBrickRow = Math.floor(ballY / brickHeight);
+  const brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
+  if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickCols) {
+    brickGrid[brickIndexUnderBall] = false;
+  }
+
   //Shapes drawing
   //Game field
   shape.rect(canvasContext, 'black', 0,0, canvas.width,canvas.height);
@@ -96,12 +104,6 @@ function updateAll() {
       }
     })
   });
-
-  //Mouse coordinates
-  const mouseBrickCol = Math.floor(mouseX / brickWidth);
-  const mouseBrickRow = Math.floor(mouseY / brickHeight);
-  const brickIndexUnderMouse = rowColToArrayIndex(mouseBrickCol, mouseBrickRow);
-  shape.text(canvasContext, `${mouseBrickCol}, ${mouseBrickRow} : ${brickIndexUnderMouse}`, mouseX,mouseY, 'yellow');
 
 }
 
