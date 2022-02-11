@@ -26,10 +26,12 @@ let mouseX;
 let mouseY;
 
 //Brick
-const brickWidth = 100;
+const brickWidth = 80;
 const brickHeight = 50;
-const brickCount = 8;
-let brickGrid = new Array(brickCount);
+const brickGap = 2;
+const brickCols = 10;
+const brickRows = 4;
+let brickGrid = [];
 
 
 window.onload = function() {
@@ -56,6 +58,10 @@ window.onload = function() {
 
 }
 
+function rowColToArrayIndex(col, row) {
+  return col + brickCols * row;
+}
+
 function updateAll() {
 
   //Ball movement
@@ -72,6 +78,14 @@ function updateAll() {
     ballReset();
   }
 
+  //Remove Bricks under the balll
+  const ballBrickCol = Math.floor(ballX / brickWidth);
+  const ballBrickRow = Math.floor(ballY / brickHeight);
+  const brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
+  if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickCols) {
+    brickGrid[brickIndexUnderBall] = false;
+  }
+
   //Shapes drawing
   //Game field
   shape.rect(canvasContext, 'black', 0,0, canvas.width,canvas.height);
@@ -80,13 +94,16 @@ function updateAll() {
   //Ball
   shape.circle(canvasContext, 'white', ballX,ballY, ballRadius);
   //Bricks
-  brickGrid.map((brick, i) => {
-    if(brickGrid[i]) {
-      shape.rect(canvasContext, 'coral', brickWidth * i,0, brickWidth - 2,brickHeight);
-    }
-  })
-  //Mouse coordinates
-  shape.text(canvasContext, `${mouseX}, ${mouseY}`, mouseX,mouseY, 'yellow');
+  [...Array(brickRows)].map((row, rowI)=>  {
+    brickGrid.map((col, colI) => {
+
+      const arrIndex = rowColToArrayIndex(colI, rowI);
+
+      if(brickGrid[arrIndex]) {
+        shape.rect(canvasContext, 'coral', brickWidth * colI,brickHeight * rowI, brickWidth - brickGap,brickHeight - brickGap);
+      }
+    })
+  });
 
 }
 
@@ -96,7 +113,7 @@ function ballReset() {
 }
 
 function brickReset() {
-  [...Array(brickCount)].map((brick, i)=> {
+  [...Array(brickCols * brickRows)].map((brick, i)=> {
     //random brick rendering
     brickGrid[i] = Math.floor(Math.random() * 2) == 0;
   });
