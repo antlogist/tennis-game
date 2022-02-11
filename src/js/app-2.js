@@ -82,7 +82,8 @@ function updateAll() {
   const ballBrickCol = Math.floor(ballX / brickWidth);
   const ballBrickRow = Math.floor(ballY / brickHeight);
   const brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
-  if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickCols) {
+  if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickCols &&
+     ballX > 0 && ballX < canvas.width) {
     brickGrid[brickIndexUnderBall] = false;
   }
 
@@ -115,6 +116,7 @@ function ballReset() {
 function brickReset() {
   [...Array(brickCols * brickRows)].map((brick, i)=> {
     //random brick rendering
-    brickGrid[i] = Math.floor(Math.random() * 2) == 0;
+    // brickGrid[i] = Math.floor(Math.random() * 2) == 0;
+    brickGrid[i] = true;
   });
 }
