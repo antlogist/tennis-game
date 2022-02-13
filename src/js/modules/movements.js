@@ -1,3 +1,4 @@
+import * as helper from './helper.js';
 export function ballMovement(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, canvasWidth,canvasHeight, paddleX,paddleY, paddleWidth,paddleHeight) {
 
   ballX += ballSpeedX;
@@ -51,5 +52,18 @@ export function updateMousePos(evt, canvas) {
   return {
     mouseX,
     mouseY
+  }
+}
+
+export function brickRemoving(ballX,ballY, brickWidth,brickHeight, brickCols,brickRows, canvas) {
+  const ballBrickCol = Math.floor(ballX / brickWidth);
+  const ballBrickRow = Math.floor(ballY / brickHeight);
+  const brickIndexUnderBall = helper.rowColToArrayIndex(ballBrickCol, ballBrickRow, brickCols);
+
+  if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickRows &&
+     ballX > 0 && ballX < canvas.width) {
+       return brickIndexUnderBall;
+  } else {
+    return null;
   }
 }

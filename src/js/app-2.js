@@ -1,3 +1,4 @@
+import * as helper from './modules/helper.js';
 import * as shape from './modules/shapes.js';
 import * as movement from './modules/movements.js';
 
@@ -59,10 +60,6 @@ window.onload = function() {
 
 }
 
-function rowColToArrayIndex(col, row) {
-  return col + brickCols * row;
-}
-
 function updateAll() {
 
   //Ball movement
@@ -79,17 +76,11 @@ function updateAll() {
     ballReset();
   }
 
-  //Remove Bricks under the balll
-  const ballBrickCol = Math.floor(ballX / brickWidth);
-  const ballBrickRow = Math.floor(ballY / brickHeight);
-  const brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
+  const brickRemovingIndex = movement.brickRemoving(ballX,ballY, brickWidth,brickHeight, brickCols,brickRows, canvas);
 
-  if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickCols &&
-     ballX > 0 && ballX < canvas.width) {
-       if(brickGrid[brickIndexUnderBall]) {
-        brickGrid[brickIndexUnderBall] = false;
-        ballSpeedY *= -1;
-       }
+  if (brickGrid[brickRemovingIndex]){
+    brickGrid[brickRemovingIndex] = false;
+    ballSpeedY *= -1;
   }
 
   //Shapes drawing
@@ -103,7 +94,7 @@ function updateAll() {
   [...Array(brickRows)].map((row, rowI)=>  {
     brickGrid.map((col, colI) => {
 
-      const arrIndex = rowColToArrayIndex(colI, rowI);
+      const arrIndex = helper.rowColToArrayIndex(colI, rowI, brickCols);
 
       if(brickGrid[arrIndex]) {
         shape.rect(canvasContext, 'coral', brickWidth * colI,brickHeight * rowI, brickWidth - brickGap,brickHeight - brickGap);
