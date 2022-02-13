@@ -14,24 +14,11 @@ export function ballMovement(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, can
     ballSpeedY *= -1;
   }
 
-   //Paddle edges
- const paddleTopEdgeY = canvasHeight - paddleHeight - canvasHeight * 0.1;
- const paddleBottomEdgeY = paddleTopEdgeY + paddleHeight;
- const paddleLeftEdgeX = paddleX;
- const paddleRightEdgeX = paddleX + paddleWidth;
+//Paddle collision
+ const paddleCollision = paddleHandling(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, paddleX, paddleWidth,paddleHeight, canvasHeight);
+ ballSpeedX = paddleCollision.ballSpeedX;
+ ballSpeedY = paddleCollision.ballSpeedY;
 
- // Reflect ball
- if(ballY > paddleTopEdgeY - ballRadius && //bellow the top of paddle
-    ballY < paddleBottomEdgeY && //above bottom of paddle
-    ballX > paddleLeftEdgeX && //right of the left side of paddle
-    ballX < paddleRightEdgeX) { //left of the right side of paddle
-       ballSpeedY *= -1;
-
-       const centerOfPaddleX = paddleX + paddleWidth / 2;
-       //negative = left
-       const ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
-       ballSpeedX = ballDistFromPaddleCenterX * 0.35;
- }
 
   return  {
     ballX,
@@ -40,6 +27,31 @@ export function ballMovement(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, can
     ballSpeedY
   }
 
+}
+
+function paddleHandling(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, paddleX, paddleWidth,paddleHeight, canvasHeight) {
+  //Paddle edges
+  const paddleTopEdgeY = canvasHeight - paddleHeight - canvasHeight * 0.1;
+  const paddleBottomEdgeY = paddleTopEdgeY + paddleHeight;
+  const paddleLeftEdgeX = paddleX;
+  const paddleRightEdgeX = paddleX + paddleWidth;
+
+  // Reflect ball
+  if(ballY > paddleTopEdgeY - ballRadius && //bellow the top of paddle
+     ballY < paddleBottomEdgeY && //above bottom of paddle
+     ballX > paddleLeftEdgeX && //right of the left side of paddle
+     ballX < paddleRightEdgeX) { //left of the right side of paddle
+        ballSpeedY *= -1;
+
+        const centerOfPaddleX = paddleX + paddleWidth / 2;
+        //negative = left
+        const ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
+        ballSpeedX = ballDistFromPaddleCenterX * 0.35;
+  }
+  return {
+    ballSpeedX: ballSpeedX,
+    ballSpeedY: ballSpeedY
+  }
 }
 
 export function updateMousePos(evt, canvas) {
