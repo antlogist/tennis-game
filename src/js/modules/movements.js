@@ -4,13 +4,13 @@ export function ballMovement(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, can
   ballX += ballSpeedX;
   ballY += ballSpeedY;
 
-  if(ballX >= canvasWidth) {
+  if(ballX > canvasWidth) {
     ballSpeedX *= -1;
   } else if(ballX <= 0) {
     ballSpeedX *= -1;
   }
 
-  if(ballY <= 0) {
+  if(ballY < 0) {
     ballSpeedY *= -1;
   }
 
@@ -39,8 +39,8 @@ function paddleHandling(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, paddleX,
   // Reflect ball
   if(ballY > paddleTopEdgeY - ballRadius && //bellow the top of paddle
      ballY < paddleBottomEdgeY && //above bottom of paddle
-     ballX > paddleLeftEdgeX && //right of the left side of paddle
-     ballX < paddleRightEdgeX) { //left of the right side of paddle
+     ballX > paddleLeftEdgeX - ballRadius && //right of the left side of paddle
+     ballX < paddleRightEdgeX + ballRadius) { //left of the right side of paddle
         ballSpeedY *= -1;
 
         const centerOfPaddleX = paddleX + paddleWidth / 2;
@@ -67,14 +67,35 @@ export function updateMousePos(evt, canvas) {
   }
 }
 
-export function brickRemoving(ballX,ballY, brickWidth,brickHeight, brickCols,brickRows, canvas) {
+export function brickRemoving(ballX,ballY, ballSpeedX,ballSpeedY, brickWidth,brickHeight, brickCols,brickRows, canvas) {
   const ballBrickCol = Math.floor(ballX / brickWidth);
   const ballBrickRow = Math.floor(ballY / brickHeight);
   const brickIndexUnderBall = helper.rowColToArrayIndex(ballBrickCol, ballBrickRow, brickCols);
 
   if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickRows &&
      ballX > 0 && ballX < canvas.width) {
-       return brickIndexUnderBall;
+
+      const prevBallX = ballX - ballSpeedX;
+      const prevBallY = ballY - ballSpeedY;
+      const prevBrickCol = Math.floor(prevBallX / brickWidth);
+      const prevBrickRow = Math.floor(prevBallY / brickHeight);
+
+      //ball crossed new col
+      if(prevBrickCol != ballBrickCol) {
+        ballSpeedX *= -1;
+      }
+
+      //ball crossed new row
+      if(prevBrickRow != ballBrickRow) {
+        ballSpeedY *= -1;
+      }
+
+      return {
+        brickIndexUnderBall: brickIndexUnderBall,
+        ballSpeedX: ballSpeedX,
+        ballSpeedY: ballSpeedY
+      }
+
   } else {
     return null;
   }

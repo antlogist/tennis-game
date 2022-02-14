@@ -77,11 +77,12 @@ function updateAll() {
   }
 
   //Brick removing
-  const brickRemovingIndex = movement.brickRemoving(ballX,ballY, brickWidth,brickHeight, brickCols,brickRows, canvas);
+  const brickRemoving = movement.brickRemoving(ballX,ballY, ballSpeedX,ballSpeedY, brickWidth,brickHeight, brickCols,brickRows, canvas);
+  if (brickRemoving !== null && brickGrid[brickRemoving.brickIndexUnderBall]){
+    brickGrid[brickRemoving.brickIndexUnderBall] = false;
 
-  if (brickGrid[brickRemovingIndex]){
-    brickGrid[brickRemovingIndex] = false;
-    ballSpeedY *= -1;
+    ballSpeedX = brickRemoving.ballSpeedX;
+    ballSpeedY = brickRemoving.ballSpeedY;
   }
 
   //Shapes drawing
