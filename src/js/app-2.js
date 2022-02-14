@@ -1,3 +1,4 @@
+import * as helper from './modules/helper.js';
 import * as shape from './modules/shapes.js';
 import * as movement from './modules/movements.js';
 
@@ -32,6 +33,7 @@ const brickGap = 2;
 const brickCols = 10;
 const brickRows = 4;
 let brickGrid = [];
+let bricksLeft = 0;
 
 
 window.onload = function() {
@@ -50,16 +52,19 @@ window.onload = function() {
     const mouseMovement = movement.updateMousePos(evt, canvas);
     mouseX = mouseMovement.mouseX;
     mouseY = mouseMovement.mouseY;
+
+    //Cheat mode
+    // ballX = mouseX;
+    // ballY = mouseY;
+    // ballSpeedX = 0;
+
     //Paddle movement. Mouse center
     paddleX = mouseX - paddleWidth / 2;
   });
 
   brickReset();
+  ballReset();
 
-}
-
-function rowColToArrayIndex(col, row) {
-  return col + brickCols * row;
 }
 
 function updateAll() {
@@ -78,12 +83,14 @@ function updateAll() {
     ballReset();
   }
 
-  //Remove Bricks under the balll
-  const ballBrickCol = Math.floor(ballX / brickWidth);
-  const ballBrickRow = Math.floor(ballY / brickHeight);
-  const brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
-  if(brickIndexUnderBall >= 0 && brickIndexUnderBall < brickCols * brickCols) {
-    brickGrid[brickIndexUnderBall] = false;
+  //Brick removing
+  const brickRemoving = movement.brickRemoving(ballX,ballY, ballSpeedX,ballSpeedY, brickWidth,brickHeight, brickCols,brickRows, brickGrid, canvas);
+  if (brickRemoving !== null && brickGrid[brickRemoving.brickIndexUnderBall]){
+    brickGrid[brickRemoving.brickIndexUnderBall] = false;
+    bricksLeft--;
+
+    ballSpeedX = brickRemoving.ballSpeedX;
+    ballSpeedY = brickRemoving.ballSpeedY;
   }
 
   //Shapes drawing
@@ -97,13 +104,18 @@ function updateAll() {
   [...Array(brickRows)].map((row, rowI)=>  {
     brickGrid.map((col, colI) => {
 
-      const arrIndex = rowColToArrayIndex(colI, rowI);
+      const arrIndex = helper.rowColToArrayIndex(colI, rowI, brickCols);
 
       if(brickGrid[arrIndex]) {
         shape.rect(canvasContext, 'coral', brickWidth * colI,brickHeight * rowI, brickWidth - brickGap,brickHeight - brickGap);
       }
     })
   });
+
+  if(bricksLeft === 0) {
+    brickReset();
+    ballReset();
+  }
 
 }
 
@@ -113,8 +125,11 @@ function ballReset() {
 }
 
 function brickReset() {
+  bricksLeft = 0;
   [...Array(brickCols * brickRows)].map((brick, i)=> {
     //random brick rendering
-    brickGrid[i] = Math.floor(Math.random() * 2) == 0;
+    // brickGrid[i] = Math.floor(Math.random() * 2) == 0;
+    brickGrid[i] = true;
+    bricksLeft++;
   });
 }
