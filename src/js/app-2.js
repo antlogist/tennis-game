@@ -88,7 +88,6 @@ function updateAll() {
   if (brickRemoving !== null && brickGrid[brickRemoving.brickIndexUnderBall]){
     brickGrid[brickRemoving.brickIndexUnderBall] = false;
     bricksLeft--;
-    console.log(bricksLeft);
 
     ballSpeedX = brickRemoving.ballSpeedX;
     ballSpeedY = brickRemoving.ballSpeedY;
