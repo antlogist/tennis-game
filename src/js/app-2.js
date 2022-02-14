@@ -77,7 +77,7 @@ function updateAll() {
   }
 
   //Brick removing
-  const brickRemoving = movement.brickRemoving(ballX,ballY, ballSpeedX,ballSpeedY, brickWidth,brickHeight, brickCols,brickRows, canvas);
+  const brickRemoving = movement.brickRemoving(ballX,ballY, ballSpeedX,ballSpeedY, brickWidth,brickHeight, brickCols,brickRows, brickGrid, canvas);
   if (brickRemoving !== null && brickGrid[brickRemoving.brickIndexUnderBall]){
     brickGrid[brickRemoving.brickIndexUnderBall] = false;
 

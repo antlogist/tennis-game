@@ -67,7 +67,7 @@ export function updateMousePos(evt, canvas) {
   }
 }
 
-export function brickRemoving(ballX,ballY, ballSpeedX,ballSpeedY, brickWidth,brickHeight, brickCols,brickRows, canvas) {
+export function brickRemoving(ballX,ballY, ballSpeedX,ballSpeedY, brickWidth,brickHeight, brickCols,brickRows, brickGrid, canvas) {
   const ballBrickCol = Math.floor(ballX / brickWidth);
   const ballBrickRow = Math.floor(ballY / brickHeight);
   const brickIndexUnderBall = helper.rowColToArrayIndex(ballBrickCol, ballBrickRow, brickCols);
@@ -80,13 +80,34 @@ export function brickRemoving(ballX,ballY, ballSpeedX,ballSpeedY, brickWidth,bri
       const prevBrickCol = Math.floor(prevBallX / brickWidth);
       const prevBrickRow = Math.floor(prevBallY / brickHeight);
 
+      let bothTestsFailed = true;
+
       //ball crossed new col
       if(prevBrickCol != ballBrickCol) {
-        ballSpeedX *= -1;
+
+        const adjBrickSide = helper.rowColToArrayIndex(prevBrickCol, ballBrickRow, brickCols);
+
+        if(brickGrid[adjBrickSide] == false) {
+          ballSpeedX *= -1;
+          bothTestsFailed = false;
+        }
+
       }
 
       //ball crossed new row
       if(prevBrickRow != ballBrickRow) {
+
+        const adjBrickTopBot = helper.rowColToArrayIndex(ballBrickCol, prevBrickRow, brickCols);
+        if(brickGrid[adjBrickTopBot] == false) {
+          ballSpeedY *= -1;
+          bothTestsFailed = false;
+        }
+
+      }
+
+      //armpit case, prevents ball from going through
+      if(bothTestsFailed) {
+        ballSpeedX *= -1;
         ballSpeedY *= -1;
       }
 
