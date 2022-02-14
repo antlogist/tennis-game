@@ -4,13 +4,13 @@ export function ballMovement(ballX,ballY, ballSpeedX,ballSpeedY, ballRadius, can
   ballX += ballSpeedX;
   ballY += ballSpeedY;
 
-  if(ballX > canvasWidth) {
+  if(ballX > canvasWidth && ballSpeedX > 0.0) {
     ballSpeedX *= -1;
-  } else if(ballX <= 0) {
+  } else if(ballX < 0 && ballSpeedX < 0.0) {
     ballSpeedX *= -1;
   }
 
-  if(ballY < 0) {
+  if(ballY < 0 && ballSpeedY < 0.0) {
     ballSpeedY *= -1;
   }
 
